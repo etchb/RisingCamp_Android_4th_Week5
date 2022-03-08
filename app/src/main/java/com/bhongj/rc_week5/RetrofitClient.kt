@@ -1,16 +1,18 @@
 package com.bhongj.rc_week5
 
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
+    var gson = GsonBuilder().setLenient().create()
     val sRetrofit = initRetrofit()
-    private const val WEATHER_URL = "https://api.openweathermap.org/data/2.5/"
+    private const val RESTAURANT_URL = "https://openapi.gg.go.kr/"
 
     private fun initRetrofit(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(WEATHER_URL)
+            .baseUrl(RESTAURANT_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 }
