@@ -357,6 +357,7 @@
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_login_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="건너뛰기"
