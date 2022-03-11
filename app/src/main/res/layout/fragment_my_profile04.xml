@@ -16,9 +16,10 @@
             android:layout_height="0dp"
             android:background="@color/orange"
             android:gravity="left|bottom"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="20dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="30dp"
             android:text="나만의 맛집을 찾고 싶다면,\n지금 로그인 해보세요!"
+            android:textSize="16sp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.2"
@@ -29,7 +30,8 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="80dp"
+            android:id="@+id/btn_go_login_page"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:text="로그인"
             android:textColor="@color/orange"
@@ -41,17 +43,49 @@
             app:layout_constraintLeft_toLeftOf="@+id/txt_des"
             app:layout_constraintRight_toRightOf="@+id/txt_des"
             app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintVertical_bias="1"
-            app:cornerRadius="40dp" />
+            app:layout_constraintVertical_bias="1"/>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_event"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="이벤트"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/setting_event"
+            android:drawableRight="@drawable/setting_angbrkta"
+            android:background="@drawable/ripple_background_rec"
+            app:layout_constraintTop_toBottomOf="@+id/txt_des"
+            app:layout_constraintBottom_toTopOf="@+id/btn_setting"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_setting"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="설정"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/setting_set"
+            android:drawableRight="@drawable/setting_angbrkta"
+            android:background="@drawable/ripple_background_rec"
+            app:layout_constraintTop_toBottomOf="@+id/btn_event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="My Profile"
-        android:textSize="50sp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
-
 </FrameLayout>

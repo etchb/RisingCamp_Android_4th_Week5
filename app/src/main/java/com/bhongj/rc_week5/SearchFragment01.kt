@@ -1,15 +1,18 @@
 package com.bhongj.rc_week5
 
+import android.graphics.Paint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.bhongj.rc_week5.databinding.FragmentSearch01Binding
 
 /**
  * A simple [Fragment] subclass.
@@ -17,16 +20,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SearchFragment01 : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var _binding: FragmentSearch01Binding
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        AdResourseData.add(R.drawable.ad1)
+        AdResourseData.add(R.drawable.ad2)
+        AdResourseData.add(R.drawable.ad3)
+        AdResourseData.add(R.drawable.ad4)
     }
 
     override fun onCreateView(
@@ -34,26 +37,57 @@ class SearchFragment01 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search01, container, false)
+        _binding = FragmentSearch01Binding.inflate(layoutInflater, container, false)
+
+        binding.txtRegion.paintFlags = binding.txtRegion.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+        val pagerAdapter = AdSlidePagerAdapter(requireActivity())
+
+        val mPager = binding.vpAd
+        mPager.adapter = pagerAdapter
+        mPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        val mIndicator = binding.vpAdIndi
+        mIndicator.setViewPager(mPager)
+        mIndicator.createIndicators(pagerAdapter.itemCount, 0)
+
+        mPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                if (positionOffsetPixels == 0) {
+                    mPager.currentItem = position
+                }
+                Log.d("TEST", "DDD")
+                Log.d("TEST", position.toString())
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                mIndicator.animatePageSelected(position % pagerAdapter.itemCount)
+                Log.d("TEST", "SSS")
+            }
+        })
+
+        val talkListRcyView = binding.rcvFood
+        talkListRcyView.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment01().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private inner class AdSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = AdResourseData.size
+
+        override fun createFragment(position: Int): Fragment {
+            return when(position) {
+                in 0 until this.itemCount -> {
+                    adSlideFragment(AdResourseData[position])
                 }
+                else -> adSlideFragment(R.drawable.ad1)
             }
+        }
     }
 }

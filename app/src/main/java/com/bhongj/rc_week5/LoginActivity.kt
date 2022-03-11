@@ -102,6 +102,19 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         Log.d("TEST", "onStart()")
 
+        if (intent.getBooleanExtra("reset", false)) {
+            setLoginData()
+            UserApiClient.instance.unlink { error ->
+                if (error != null) {
+                    Log.d("TEST", "연결 끊기 실패", error)
+                }
+                else {
+                    Log.d("TEST", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                }
+            }
+            binding.btnLoginSkip.visibility = View.INVISIBLE
+        }
+
         val sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
         Log.d("TEST", sharedPreferences.getBoolean("isAutoLogin", false).toString())
         if (sharedPreferences.getBoolean("isAutoLogin", false)) {
