@@ -38,8 +38,14 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getRestaurantSize(getString(R.string.API_KEY), "json")
-        getRestaurantDataList()
+        Log.d("TEST RestrntDataSize 11", RestrntDataSize.toString())
+        if (RestrntDataSize > 0) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        } else {
+            getRestaurantSize(getString(R.string.API_KEY), "json")
+            getRestaurantDataList()
+        }
     }
 
     private fun getRestaurantDataList() {
