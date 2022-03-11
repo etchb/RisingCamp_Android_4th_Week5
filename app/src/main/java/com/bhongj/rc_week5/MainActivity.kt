@@ -1,13 +1,17 @@
 package com.bhongj.rc_week5
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bhongj.rc_week5.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
+    private lateinit var fragmentList: List<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +24,16 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
     }
 
+
+
     private fun initAdapter() {
         //Adapter 안에 ViewPager2 상에 띄워줄 fragmentList 생성
-        val fragmentList = listOf(SearchFragment01(), DiscountFragment02(), IssueFragment03(), MyProfileFragment04())
+        val sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("isAutoLogin", false)) {
+            fragmentList = listOf(SearchFragment01(), DiscountFragment02(), IssueFragment03(), MyKakaoProfileFragment())
+        } else {
+            fragmentList = listOf(SearchFragment01(), DiscountFragment02(), IssueFragment03(), MyProfileFragment04())
+        }
 
         //ViewPagerAdapter 초기화
         mainViewPagerAdapter = MainViewPagerAdapter(this)

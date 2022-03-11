@@ -55,9 +55,13 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
     }
 
-    private fun setLoginData(userId : String? = "defaultId") {
+    private fun setLoginData(userId : String? = "defaultId", imageUrl : String? = "defaultImageUrl") {
         val sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         if (userId == "defaultId" || userId == null) {
@@ -66,8 +70,10 @@ class LoginActivity : AppCompatActivity() {
             editor.putBoolean("isAutoLogin", true)
         }
         editor.putString("userId", userId)
+        editor.putString("imageUrl", imageUrl)
         editor.apply()
-        Log.d("TEST", sharedPreferences.getString("userId", "??").toString())
+        Log.d("TEST userId", sharedPreferences.getString("userId", "??").toString())
+        Log.d("TEST imageUrl", sharedPreferences.getString("imageUrl", "??").toString())
         Log.d("TEST", sharedPreferences.getBoolean("isAutoLogin", false).toString())
     }
 
@@ -86,8 +92,10 @@ class LoginActivity : AppCompatActivity() {
                             "\n이메일: ${user.kakaoAccount?.email}" +
                             "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
                             "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}")
-                    setLoginData(user.kakaoAccount?.profile?.nickname)
+                    setLoginData(user.kakaoAccount?.profile?.nickname, user.kakaoAccount?.profile?.thumbnailImageUrl)
+
                     val intent = Intent(this, SplashActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
                 }
@@ -112,7 +120,12 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("TEST", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
                 }
             }
-            binding.btnLoginSkip.visibility = View.INVISIBLE
+            binding.btnLoginSkip.visibility = View.GONE
+            binding.btnClose.visibility = View.VISIBLE
+        } else {
+
+            binding.btnLoginSkip.visibility = View.VISIBLE
+            binding.btnClose.visibility = View.GONE
         }
 
         val sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
