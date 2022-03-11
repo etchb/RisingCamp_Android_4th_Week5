@@ -1,5 +1,4 @@
 *.iml
-/app/src/main/res/values/api_secret_key.xml
 .gradle
 /local.properties
 /.idea/caches
@@ -14,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/res/values/api_secret_key.xml

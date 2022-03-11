@@ -1,6 +1,7 @@
 package com.bhongj.rc_week5
 
 import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,11 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bhongj.rc_week5.databinding.FragmentSearch01Binding
+import com.bhongj.rc_week5.model.RestrntData
+
 
 /**
  * A simple [Fragment] subclass.
@@ -30,6 +35,22 @@ class SearchFragment01 : Fragment() {
         AdResourseData.add(R.drawable.ad2)
         AdResourseData.add(R.drawable.ad3)
         AdResourseData.add(R.drawable.ad4)
+
+        for (len in 1..RestrntData.size/6) {
+            var idx = 0
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food1
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food2
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food3
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food4
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food5
+            RestrntData[(len-1)*6+idx].RATE = (((Math.random() * 30).toInt() + 21).toFloat()/10f)
+            RestrntData[(len-1)*6+idx++].PIC = R.drawable.food6
+        }
     }
 
     override fun onCreateView(
@@ -72,10 +93,21 @@ class SearchFragment01 : Fragment() {
             }
         })
 
-        val talkListRcyView = binding.rcvFood
-        talkListRcyView.layoutManager = LinearLayoutManager(context)
+        val RestrntDataFil = RestrntData.filter { it.SIGNGU_NM == "화성시" }.toMutableList()
+        val adapter = MainFoodAdapter(RestrntDataFil)
+        val foodRcyView = binding.rcvFood
+        foodRcyView.layoutManager = GridLayoutManager(context, 2)
+        foodRcyView.setHasFixedSize(true)
+        foodRcyView.adapter = adapter
+
+        val itemDecoration = PhOffsetItemDecoration(0)
+        foodRcyView.addItemDecoration(itemDecoration)
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     private inner class AdSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -88,6 +120,16 @@ class SearchFragment01 : Fragment() {
                 }
                 else -> adSlideFragment(R.drawable.ad1)
             }
+        }
+    }
+
+    class PhOffsetItemDecoration(private val mPadding: Int) : ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, itemPosition: Int, parent: RecyclerView) {
+            super.getItemOffsets(outRect, itemPosition, parent)
+            outRect.top = mPadding
+            outRect.bottom = mPadding
+            outRect.left = mPadding
+            outRect.right = mPadding
         }
     }
 }

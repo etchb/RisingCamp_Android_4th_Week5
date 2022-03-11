@@ -17,5 +17,7 @@ data class Row(
     val SIGNGU_NM: String,
     val SLCTN_YN_DIV: String,
     val TELNO: String,
-    val UPD_DAY: Any
+    val UPD_DAY: Any,
+    var PIC: Int = 0,
+    var RATE: Float = 0f,
 )

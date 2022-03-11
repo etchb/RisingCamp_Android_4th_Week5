@@ -112,7 +112,12 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("TEST", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
                 }
             }
-            binding.btnLoginSkip.visibility = View.INVISIBLE
+            binding.btnLoginSkip.visibility = View.GONE
+            binding.btnClose.visibility = View.VISIBLE
+        } else {
+
+            binding.btnLoginSkip.visibility = View.VISIBLE
+            binding.btnClose.visibility = View.GONE
         }
 
         val sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)

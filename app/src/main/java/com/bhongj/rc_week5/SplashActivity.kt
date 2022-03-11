@@ -65,6 +65,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 Log.d("TEST", "RestrntData.size = ${RestrntData.size}")
                 startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
         }.start()
     }
